@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import {
   Animated,
   Dimensions,
+  FlatList,
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -10,7 +11,9 @@ import {
   View
 } from 'react-native';
 
-const { width } = Dimensions.get('screen');
+const { width } = Dimensions.get('window');
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const data = [
   'https://cdn.dribbble.com/users/3281732/screenshots/13130602/media/592ccac0a949b39f058a297fd1faa38e.jpg',
@@ -38,14 +41,6 @@ const App = () => {
     console.log(currPage);
   };
 
-  const onLoad = () => {
-    Animated.timing(scrollX, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true
-    }).start();
-  };
-
   return (
     <View style={{ flex: 1, backgroundColor: '#000' }}>
       <StatusBar hidden />
@@ -55,13 +50,12 @@ const App = () => {
           const opacity = scrollX.interpolate({
             inputRange,
             outputRange: [0, 1, 0],
-            extrapolate: 'extend'
+            extrapolate: 'clamp'
           });
           return (
             <Animated.Image
               key={`image-${index}`}
               source={{ uri: image }}
-              onLoad={onLoad}
               style={[
                 StyleSheet.absoluteFillObject,
                 {
@@ -74,7 +68,7 @@ const App = () => {
           );
         })}
       </View>
-      <Animated.FlatList
+      <AnimatedFlatList
         data={data}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: true })}
         horizontal
