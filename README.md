@@ -23,3 +23,8 @@ yarn android
 ## Troubleshooting on IOS
 
 - BlurRadius prop from Image component set a black background instead of Image randomly when scrolling.
+
+### Links
+
+Tutorial from [Catalin Miron YT channel](https://youtu.be/gOj4BlzYF4A)  
+Illustrations by [SAMji](https://dribbble.com/SAMji_illustrator)
